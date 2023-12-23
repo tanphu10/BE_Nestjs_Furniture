@@ -1,0 +1,127 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model addCart {
+  id      Int   @id @default(autoincrement())
+  item_id Int
+  user_id Int
+  number  Int
+  items   items @relation(fields: [item_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "addCart_ibfk_1")
+  users   users @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "addCart_ibfk_2")
+
+  @@index([item_id], map: "item_id")
+  @@index([user_id], map: "user_id")
+}
+
+model book_item {
+  id              Int              @id @default(autoincrement())
+  item_id         Int
+  user_id         Int
+  number          Int
+  date_on         DateTime?        @db.Date
+  date_out        DateTime?        @db.Date
+  notice          String?          @db.VarChar(255)
+  items           items            @relation(fields: [item_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "book_item_ibfk_1")
+  users           users            @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "book_item_ibfk_2")
+  req_user_booked req_user_booked?
+
+  @@index([item_id], map: "item_id")
+  @@index([user_id], map: "user_id")
+}
+
+model comments {
+  id      Int       @id @default(autoincrement())
+  item_id Int
+  user_id Int
+  date_on DateTime? @db.Date
+  content String?   @db.VarChar(255)
+  rate    Int
+  items   items     @relation(fields: [item_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "comments_ibfk_1")
+  users   users     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "comments_ibfk_2")
+
+  @@index([item_id], map: "item_id")
+  @@index([user_id], map: "user_id")
+}
+
+model items {
+  id          Int          @id @default(autoincrement())
+  name_item   String       @db.VarChar(255)
+  number      Int
+  photo       String       @db.VarChar(255)
+  price       Int
+  description String       @db.VarChar(255)
+  type_id     Int
+  addCart     addCart[]
+  book_item   book_item[]
+  comments    comments[]
+  type_item   type_item    @relation(fields: [type_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "items_ibfk_1")
+  likes       likes[]
+  photoItems  photoItems[]
+
+  @@index([type_id], map: "type_id")
+}
+
+model likes {
+  item_id   Int
+  user_id   Int
+  date_like DateTime? @db.Date
+  quantity  Boolean?
+  items     items     @relation(fields: [item_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "likes_ibfk_1")
+  users     users     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "likes_ibfk_2")
+
+  @@id([item_id, user_id])
+  @@index([user_id], map: "user_id")
+}
+
+model photoItems {
+  id      Int     @id @default(autoincrement())
+  item_id Int
+  photo_1 String? @db.VarChar(255)
+  photo_2 String? @db.VarChar(255)
+  photo_3 String? @db.VarChar(255)
+  photo_4 String? @db.VarChar(255)
+  photo_5 String? @db.VarChar(255)
+  items   items   @relation(fields: [item_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "photoItems_ibfk_1")
+
+  @@index([item_id], map: "item_id")
+}
+
+model req_user_booked {
+  book_id   Int       @id
+  date_on   DateTime? @db.Date
+  date_out  DateTime? @db.Date
+  notice    String?   @db.VarChar(255)
+  book_item book_item @relation(fields: [book_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "req_user_booked_ibfk_1")
+}
+
+model type_item {
+  id        Int     @id @default(autoincrement())
+  type_name String? @db.VarChar(255)
+  icons     String? @db.VarChar(255)
+  items     items[]
+}
+
+model users {
+  id        Int         @id @default(autoincrement())
+  full_name String      @db.VarChar(255)
+  email     String      @db.VarChar(255)
+  pass_word String      @db.VarChar(255)
+  phone     String      @db.VarChar(255)
+  birth_day DateTime?   @db.Date
+  gender    Boolean?
+  role      String      @db.VarChar(255)
+  avatar    String      @db.VarChar(255)
+  type_     String?     @db.VarChar(255)
+  address   String?     @db.VarChar(255)
+  isverify  Boolean?
+  addCart   addCart[]
+  book_item book_item[]
+  comments  comments[]
+  likes     likes[]
+}
