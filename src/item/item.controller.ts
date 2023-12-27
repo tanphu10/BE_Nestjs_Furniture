@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   Put,
+  Query,
 } from "@nestjs/common";
 import { ItemService } from "./item.service";
 import { CreateItemDto } from "./dto/create-item.dto";
@@ -27,6 +28,11 @@ export class ItemController {
   findAll() {
     return this.itemService.findAll();
   }
+  @Get("item/type/:id")
+  findType(@Param("id") id: number) {
+    console.log("check =>>>", id);
+    return this.itemService.findType(+id);
+  }
 
   @Get("/item/:id")
   findOne(@Param("id") id: string) {
@@ -37,7 +43,6 @@ export class ItemController {
   update(@Param("id") id: string, @Body() updateItemDto: UpdateItemDto) {
     return this.itemService.update(+id, updateItemDto);
   }
-
   @Delete("/item/:id")
   remove(@Param("id") id: string) {
     return this.itemService.remove(+id);

@@ -66,11 +66,11 @@ export class UsersController {
     return this.usersService.search(userName);
   }
 
-  @Get('/users/pagina-search')
+  @Get("/users/pagina-search")
   pagina(
-    @Query('page') page: string,
-    @Query('pageSize') pageSize: string,
-    @Query('userName') userName: string,
+    @Query("page") page: string,
+    @Query("pageSize") pageSize: string,
+    @Query("userName") userName: string
   ) {
     return this.usersService.pagina(+page, +pageSize, userName);
   }
@@ -79,7 +79,15 @@ export class UsersController {
   @ApiBody({
     type: UploadDto,
   })
-  @UseInterceptors(FileInterceptor("file", uploadImg))
+  @UseInterceptors(
+    FileInterceptor("file", {
+      storage: diskStorage({
+        destination: process.cwd() + "/public/img",
+        filename: (req, file, calback) =>
+          calback(null, new Date().getTime() + "_" + file.originalname),
+      }),
+    })
+  )
   @Post("/users/upload-avatar")
   uploadAvatar(
     @UploadedFile() file: Express.Multer.File,

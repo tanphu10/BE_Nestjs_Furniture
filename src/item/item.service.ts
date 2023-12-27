@@ -28,6 +28,12 @@ export class ItemService {
     return successCode({ data, message: "get all item thành công" });
   }
 
+  async findType(id: number) {
+    console.log("fe",id);
+    let data = await this.prisma.items.findMany({ where: { type_id: id } });
+    console.log("Ssss",data);
+    return successCode({ data, message: "get all item thành công" });
+  }
   async findOne(id: number) {
     // console.log(id);
     let data = await this.prisma.items.findFirst({ where: { id } });

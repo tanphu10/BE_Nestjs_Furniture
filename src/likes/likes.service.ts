@@ -63,16 +63,20 @@ export class LikesService {
       where: { item_id: id },
     });
     // console.log(checkData);
-    if (checkData.length >0) {
-      let data = await this.prisma.likes.count({
+    if (checkData.length > 0) {
+      let data = await this.prisma.likes.findMany({
         where: {
           item_id: id,
           quantity: true,
         },
       });
-      return successCode({ data, message: "get all like by item thành công" });
+      // console.log(data);
+      return successCode({
+        data,
+        message: "get all like by item thành công",
+      });
     } else {
-      return errorCode({ data: "item không tồn tại" });
+      return successCode({ data: [], message: "item không tồn tại" });
     }
   }
 }

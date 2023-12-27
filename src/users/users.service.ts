@@ -5,6 +5,7 @@ import { JwtService } from "@nestjs/jwt";
 import { PrismaClient } from "@prisma/client";
 import { errorCode, successCode } from "src/utils/resClient";
 import * as bcrypt from "bcrypt";
+import { toiUuHinh } from "src/utils/upload";
 
 @Injectable()
 export class UsersService {
@@ -144,10 +145,12 @@ export class UsersService {
     };
   }
   async uploadAvatar(token: string, file: Express.Multer.File) {
-    // console.log(token);
+    // console.log("check data=>>", process.cwd());
     let decodeToken: any = this.jwtService.decode(token);
     // console.log(decodeToken.data);
     // console.log('file', file);
+    // let imageBase = await toiUuHinh(file);
+    // console.log(imageBase);
     let user = decodeToken.data;
     let { id } = decodeToken.data;
     let newUser = { ...user, avatar: file.filename };

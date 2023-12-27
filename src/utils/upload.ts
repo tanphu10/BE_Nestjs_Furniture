@@ -11,6 +11,7 @@ export const uploadImg = {
 };
 
 export const toiUuHinh = (file) => {
+  console.log("first",file.size)
   if (file.size > 500000)
     // lớn hơn 500 Kb
     compress_images(
@@ -28,6 +29,7 @@ export const toiUuHinh = (file) => {
         },
       },
       function (error, completed, statistic) {
+        console.log("first")
         // xóa file hình chưa tối ưu
         // fs.unlink(`process.cwd()+public/img/${}`);
       },

@@ -31,3 +31,9 @@ export class LoginAuthDto {
   @ApiProperty({ required: true })
   pass_word: string;
 }
+export class LoginAuthSocial {
+  @ApiProperty({ required: true })
+  email: string;
+  @ApiProperty({ required: true })
+  type_: string;
+}

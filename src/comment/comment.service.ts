@@ -33,8 +33,11 @@ export class CommentService {
 
   async findItem(item_id: number) {
     // console.log(item_id);
-    let data = await this.prisma.comments.findMany({ where: { item_id } });
-    console.log(data);
+    let data = await this.prisma.comments.findMany({
+      where: { item_id },
+      include: { users: true },
+    });
+    // console.log(data);vertical
     return successCode({
       data,
       message: "get all comment  by item_id thành công",
