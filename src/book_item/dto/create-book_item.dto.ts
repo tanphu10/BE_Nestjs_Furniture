@@ -8,6 +8,8 @@ export class CreateBookItemDto {
   @ApiProperty()
   number: number;
   @ApiProperty()
+  notice: string;
+  @ApiProperty()
   date_on: Date;
   @ApiProperty()
   date_out: Date;

@@ -22,7 +22,7 @@ import { ApiBody, ApiConsumes } from "@nestjs/swagger";
 import { FileInterceptor, FilesInterceptor } from "@nestjs/platform-express";
 import { diskStorage } from "multer";
 
-@Controller("photo-item")
+@Controller("api")
 export class PhotoItemController {
   constructor(private readonly photoItemService: PhotoItemService) {}
 
@@ -34,7 +34,7 @@ export class PhotoItemController {
   @UseInterceptors(FilesInterceptor("files"))
   @Post("/upload-avatar")
   uploaded(
-    @UploadedFile() files: Array<Express.Multer.File>,
+    @UploadedFile() files: Array<Express.Multer.File>
     // @Headers("token") token: string
   ) {
     console.log(files);
@@ -45,7 +45,7 @@ export class PhotoItemController {
     return this.photoItemService.findAll();
   }
 
-  @Get(":id")
+  @Get("/photo/item/:id")
   findOne(@Param("id") id: string) {
     return this.photoItemService.findOne(+id);
   }

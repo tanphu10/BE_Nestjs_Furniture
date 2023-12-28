@@ -73,10 +73,33 @@ export class LikesService {
       // console.log(data);
       return successCode({
         data,
-        message: "get all like by item thành công",
+        message: "get like by item thành công",
       });
     } else {
       return successCode({ data: [], message: "item không tồn tại" });
+    }
+  }
+  async findUser(id: number) {
+    // console.log(id);
+    let checkData = await this.prisma.users.findMany({
+      where: { id },
+    });
+    // console.log(checkData);
+    if (checkData.length > 0) {
+      let data = await this.prisma.likes.findMany({
+        where: {
+          user_id: id,
+          quantity: true,
+        },
+        include: { items: true },
+      });
+      // console.log(data);
+      return successCode({
+        data,
+        message: "get like by user thành công",
+      });
+    } else {
+      return successCode({ data: [], message: "user không tồn tại" });
     }
   }
 }

@@ -26,8 +26,12 @@ export class LikesController {
     return this.likesService.findAll();
   }
 
-  @Get("/like/:id")
+  @Get("/like/item/:id")
   findItem(@Param("id") id: string) {
     return this.likesService.findItem(+id);
+  }
+  @Get("/like/user/:id")
+  findUser(@Param("id") id: string) {
+    return this.likesService.findUser(+id);
   }
 }

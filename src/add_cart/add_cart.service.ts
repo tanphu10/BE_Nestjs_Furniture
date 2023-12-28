@@ -51,7 +51,7 @@ export class AddCartService {
     });
     return successCode({
       data,
-      message: "get item by user_id thành công",
+      message: "get item by user_id with addcart thành công",
     });
   }
 
@@ -69,11 +69,21 @@ export class AddCartService {
   }
 
   async remove(id: number) {
-    await this.prisma.addCart.delete({
-      where: { id },
-    });
-    return successCode({
-      message: "xóa item thành công",
-    });
+    // console.log(id);
+    let checkData = await this.prisma.addCart.findMany({ where: { id } });
+    // console.log(checkData);
+    if (checkData.length > 0) {
+      let data = await this.prisma.addCart.delete({
+        where: { id },
+      });
+      return successCode({
+        message: "xóa item thành công",
+        data,
+      });
+    } else {
+      return errorCode({ data: "item không tồn tại" });
+    }
+
+    // console.log(data);
   }
 }

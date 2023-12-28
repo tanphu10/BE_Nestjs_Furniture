@@ -28,7 +28,7 @@ export class AddCartController {
     return this.addCartService.findAll();
   }
 
-  @Get("add-cart/:id")
+  @Get("add-cart/user/:id")
   findOne(@Param("id") id: string) {
     return this.addCartService.findUser(+id);
   }
@@ -41,7 +41,7 @@ export class AddCartController {
     return this.addCartService.update(+id, updateAddCartDto);
   }
 
-  @Delete("add-cart:id")
+  @Delete("add-cart/:id")
   remove(@Param("id") id: string) {
     return this.addCartService.remove(+id);
   }

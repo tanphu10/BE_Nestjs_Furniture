@@ -10,15 +10,20 @@ export class BookItemService {
   constructor(private jwtService: JwtService) {}
   prisma = new PrismaClient();
   async create(createBookItemDto: CreateBookItemDto) {
-    console.log(createBookItemDto);
+    console.log("createBookItemDto check", createBookItemDto);
     let { item_id, user_id } = createBookItemDto;
     let checkItem = await this.prisma.items.findFirst({
       where: { id: item_id },
     });
+
     let checkUser = await this.prisma.users.findFirst({
       where: { id: user_id },
     });
+    // console.log(checkItem)
+    // let checkItem = null;
+    // console.log(checkItem);
     if (!checkItem) {
+      console.log("first");
       return errorCode({ data: "item không tồn tại" });
     } else {
       if (!checkUser) {

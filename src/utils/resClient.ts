@@ -1,7 +1,7 @@
 const successCode = (content) => {
-  // console.log("check", content);
+  console.log("check", content);
   return {
-    status: 200,
+    statusCode: 200,
     message: content.message,
     data: { content: content.data },
     dateTime: new Date(),
@@ -21,7 +21,7 @@ const successAuthCode = (content) => {
 };
 const errorCode = (content) => {
   return {
-    status: 500,
+    statusCode: 500,
     data: { content: content.data },
     message: "Lỗi BE",
     dateTime: new Date(),
